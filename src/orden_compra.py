@@ -12,6 +12,7 @@ class OrdenFrame(tk.Frame):
         tk.Label(header, text="Órdenes de Compra", font=("Arial", 18, "bold")).pack(side="left", padx=10, pady=10)
         ttk.Button(header, text="Volver al Menú", command=lambda: controller.show("MenuFrame")).pack(side="right", padx=10)
 
+
         form = tk.LabelFrame(self, text="Nueva Orden", padx=8, pady=8)
         form.pack(fill="x", padx=10, pady=6)
 
@@ -33,6 +34,7 @@ class OrdenFrame(tk.Frame):
         add_row(7, "Precios (lista simple)", "precios")
 
         ttk.Button(form, text="Guardar", command=self.guardar).grid(row=8, column=1, sticky="w", padx=6, pady=8)
+
 
         table_box = tk.LabelFrame(self, text="Órdenes registradas", padx=8, pady=8)
         table_box.pack(fill="both", expand=True, padx=10, pady=8)
