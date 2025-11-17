@@ -18,6 +18,8 @@ class MenuFrame(tk.Frame):
         ttk.Button(nav, text="Home", command=self._home).grid(row=0, column=0, padx=6)
         ttk.Button(nav, text="Órdenes de Compra", command=lambda: controller.show("OrdenFrame")).grid(row=0, column=1, padx=6)
         ttk.Button(nav, text="Cerrar sesión", command=self._logout).grid(row=0, column=2, padx=6)
+        ttk.Button(nav, text="Facturación", command=lambda: controller.show("FacturaFrame")).grid(row=0, column=3, padx=6)
+        ttk.Button(nav, text="Enviar Productos", command=lambda: controller.show("EnvioFrame")).grid(row=0, column=4, padx=6)
 
         self.msg = tk.Label(self, text="Bienvenido/a", font=("Arial", 12))
         self.msg.pack(pady=20)

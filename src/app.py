@@ -4,6 +4,8 @@ from .db import init_db
 from .login import LoginFrame
 from .menu import MenuFrame
 from .orden_compra import OrdenFrame
+from .factura import FacturaFrame
+from .envio import EnvioFrame
 
 class App(tk.Tk):
     def __init__(self):
@@ -19,7 +21,7 @@ class App(tk.Tk):
         container.pack(fill="both", expand=True)
 
         self.frames = {}
-        for F in (LoginFrame, MenuFrame, OrdenFrame):
+        for F in (LoginFrame, MenuFrame, OrdenFrame, FacturaFrame, EnvioFrame):
             frame = F(parent=container, controller=self)
             self.frames[F.__name__] = frame
             frame.grid(row=0, column=0, sticky="nsew")
