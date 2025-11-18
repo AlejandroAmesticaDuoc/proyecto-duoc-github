@@ -6,6 +6,8 @@ from .menu import MenuFrame
 from .orden_compra import OrdenFrame
 from .factura import FacturaFrame
 from .envio import EnvioFrame
+from .factura import FacturaFrame
+
 
 class App(tk.Tk):
     def __init__(self):
