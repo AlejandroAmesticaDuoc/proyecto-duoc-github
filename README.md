@@ -1,3 +1,0 @@
-﻿# Proyecto duoc
-
-python -m src.app
