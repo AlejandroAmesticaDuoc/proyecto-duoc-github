@@ -12,7 +12,7 @@ class EnvioFrame(tk.Frame):
         tk.Label(header, text="RF5 - Envío de Productos", font=("Arial", 18, "bold")).pack(side="left", padx=10, pady=10)
         ttk.Button(header, text="Volver al menú", command=lambda: controller.show("MenuFrame")).pack(side="right", padx=10)
 
-
+        # --- Selección de factura ---
         factura_box = tk.LabelFrame(self, text="Seleccionar factura", padx=8, pady=8)
         factura_box.pack(fill="x", padx=10, pady=10)
 
@@ -21,7 +21,7 @@ class EnvioFrame(tk.Frame):
         self.factura_menu.pack(side="left", fill="x", expand=True, padx=5)
         ttk.Button(factura_box, text="Cargar productos", command=self.cargar_productos).pack(side="right", padx=5)
 
-
+        # --- Tabla productos ---
         productos_box = tk.LabelFrame(self, text="Productos de la factura", padx=8, pady=8)
         productos_box.pack(fill="both", expand=True, padx=10, pady=10)
 
@@ -31,24 +31,33 @@ class EnvioFrame(tk.Frame):
             self.tree.heading(c, text=c.upper())
         self.tree.pack(fill="both", expand=True)
 
-
         ttk.Button(self, text="Despachar producto", command=self.despachar_producto).pack(pady=10)
 
+        # Se ejecutará cuando el frame se muestre
         self.bind("<<ShowFrame>>", lambda e: self.cargar_facturas())
 
+    # Para que <<ShowFrame>> se dispare al levantar el frame
+    def tkraise(self, aboveThis=None):
+        super().tkraise(aboveThis)
+        self.event_generate("<<ShowFrame>>")
+
     def cargar_facturas(self):
+        # AHORA: trae todas las facturas, no exige que haya registros en envios
         with get_connection() as conn:
             rows = conn.execute("""
-                SELECT DISTINCT f.id, f.orden_id, f.total
-                FROM facturas f
-                JOIN envios e ON f.id = e.factura_id
+                SELECT id, orden_id, total
+                FROM facturas
+                ORDER BY id DESC
             """).fetchall()
 
         opciones = [f"ID {r['id']} - Orden {r['orden_id']} - Total ${r['total']}" for r in rows]
         self.factura_menu['values'] = opciones
         if opciones:
             self.factura_menu.current(0)
+        else:
+            self.factura_var.set("")
 
+        # Limpia la tabla de productos
         self.tree.delete(*self.tree.get_children())
 
     def cargar_productos(self):
@@ -83,4 +92,4 @@ class EnvioFrame(tk.Frame):
             conn.commit()
 
         messagebox.showinfo("Éxito", f"Producto {producto_id} despachado")
-        self.cargar_productos()  
+        self.cargar_productos()
