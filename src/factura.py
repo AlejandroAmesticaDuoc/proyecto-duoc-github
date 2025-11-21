@@ -14,15 +14,20 @@ class FacturaFrame(tk.Frame):
         ttk.Button(header, text="Volver al menú", command=lambda: controller.show("MenuFrame")).pack(side="right", padx=10)
 
         box = tk.LabelFrame(self, text="Órdenes disponibles para facturar", padx=8, pady=8)
-        box.pack(fill="both", expand=True, padx=10, pady=10)
-
+        box.pack(fill="both", padx=10, pady=10)   # 👈 sin expand=True
+        
         cols = ("id","numero","cliente","estado")
         self.tree = ttk.Treeview(box, columns=cols, show="headings", height=8)
         for c in cols:
             self.tree.heading(c, text=c.upper())
         self.tree.pack(fill="both", expand=True)
+        
+        # Botón dentro del box, abajo
+        btn_frame = tk.Frame(box)
+        btn_frame.pack(fill="x", pady=5)
+        ttk.Button(btn_frame, text="Emitir Factura", command=self.emitir_factura).pack()
 
-        ttk.Button(self, text="Emitir Factura", command=self.emitir_factura).pack(pady=10)
+
 
         self.bind("<<ShowFrame>>", lambda e: self.cargar_ordenes())
 
